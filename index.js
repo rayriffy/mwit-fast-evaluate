@@ -35,7 +35,7 @@ const { USER = "USERNAME", PASS = "PASSWORD", IS_THREE_ADVISOR = false } = proce
   
   await page.waitFor(2000)
 
-  var i, j;
+  var i, j, k;
 
   // Advisor
   console.log('>> Starting evaluate advisor')
@@ -46,33 +46,21 @@ const { USER = "USERNAME", PASS = "PASSWORD", IS_THREE_ADVISOR = false } = proce
       if (await page.$('#root > section > div.app-container > div > div:nth-child(3) > div:nth-child(' + i + ') > div > div > a') === null) {
         continue;
       } else {
-        console.log('Before Press Button 3:' + i)
+        console.log('Evaluating advisor (' + i + '/' + (IS_THREE_ADVISOR === true) ? '3' : '2' + ')')
+
         await page.click('#root > section > div.app-container > div > div:nth-child(3) > div:nth-child(' + i + ') > div > div > a')
 
         console.log('After Press Button')
 
         await page.waitForSelector('.table > tbody > tr:nth-child(1) > td:nth-child(6) > input')
 
-        console.log('Radio')
-        await page.click('.table > tbody > tr:nth-child(1) > td:nth-child(6) > input')
-
-        console.log('Radio')      
-        await page.click('.table > tbody > tr:nth-child(2) > td:nth-child(6) > input')
-
-        console.log('Radio')
-        await page.click('.table > tbody > tr:nth-child(3) > td:nth-child(6) > input')
-
-        console.log('Radio')
-        await page.click('.table > tbody > tr:nth-child(4) > td:nth-child(6) > input')
-
-        console.log('Radio')
-        await page.click('.table > tbody > tr:nth-child(5) > td:nth-child(6) > input')
+        for(j = 1 ; j <= 5 ; j++) {
+          await page.click('.table > tbody > tr:nth-child(' + j + ') > td:nth-child(6) > input')
+        }
 
         await page.waitFor(500)
 
-        console.log('Before submit')
         await page.click('.app-view > .field > .control:nth-child(1) > .button > .icon')
-        console.log('After submit')
 
         await page.waitFor(1500)
       }
@@ -89,50 +77,18 @@ const { USER = "USERNAME", PASS = "PASSWORD", IS_THREE_ADVISOR = false } = proce
         if (await page.$('#root > section > div.app-container > div > div:nth-child(' + i + ') > div:nth-child(' + j + ') > div > div > a') === null) {
           continue;
         } else {
-          console.log('Before Press Button ' + i + ':' + j)
+          console.log('Evaluating lecturer (' + i + ':' + j + ')')
           await page.click('#root > section > div.app-container > div > div:nth-child(' + i + ') > div:nth-child(' + j + ') > div > div > a')
-
-          console.log('After Press Button')
 
           await page.waitForSelector('.table > tbody > tr:nth-child(1) > td:nth-child(6) > input')
 
-          console.log('Radio')
-          
-          await page.click('.table > tbody > tr:nth-child(1) > td:nth-child(6) > input')
-          console.log('Radio')
-          
-          await page.click('.table > tbody > tr:nth-child(2) > td:nth-child(6) > input')
-          console.log('Radio')
-          
-          await page.click('.table > tbody > tr:nth-child(3) > td:nth-child(6) > input')
-          console.log('Radio')
-          
-          await page.click('.table > tbody > tr:nth-child(4) > td:nth-child(6) > input')
-          console.log('Radio')
-          
-          await page.click('.table > tbody > tr:nth-child(5) > td:nth-child(6) > input')
-          console.log('Radio')
-          
-          await page.click('.table > tbody > tr:nth-child(6) > td:nth-child(6) > input')
-          console.log('Radio')
-          
-          await page.click('.table > tbody > tr:nth-child(7) > td:nth-child(6) > input')
-          console.log('Radio')
-          
-          await page.click('.table > tbody > tr:nth-child(8) > td:nth-child(6) > input')
-          console.log('Radio')
-          
-          await page.click('.table > tbody > tr:nth-child(9) > td:nth-child(6) > input')
-          console.log('Radio')
-          
-          await page.click('.table > tbody > tr:nth-child(10) > td:nth-child(6) > input')
-          console.log('Radio')
+          for (k = 1 ; k <= 10 ; k++) {
+            await page.click('.table > tbody > tr:nth-child(1) > td:nth-child(6) > input')
+          }
 
           await page.waitFor(500)
           
-          console.log('Before submit')
           await page.click('.app-view > .field > .control:nth-child(1) > .button > .icon')
-          console.log('After submit')
 
           await page.waitFor(1500)
         }
