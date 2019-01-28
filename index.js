@@ -3,12 +3,12 @@ const dotenv = require('dotenv');
 
 dotenv.config();
 
-const { USER = "USERNAME", PASS = "PASSWORD", IS_THREE_ADVISOR = false } = process.env;
+const { USER = "USERNAME", PASS = "PASSWORD", IS_THREE_ADVISOR = false, HEADLESS = false } = process.env;
 
 (async () => {
 
   const browser = await puppeteer.launch({
-    headless: false
+    headless: HEADLESS
   });
   const page = await browser.newPage()
   
