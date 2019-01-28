@@ -46,7 +46,10 @@ const { USER = "USERNAME", PASS = "PASSWORD", IS_THREE_ADVISOR = false } = proce
       if (await page.$('#root > section > div.app-container > div > div:nth-child(3) > div:nth-child(' + i + ') > div > div > a') === null) {
         continue;
       } else {
-        console.log('Evaluating advisor (' + i + '/' + (IS_THREE_ADVISOR === true) ? '3' : '2' + ')')
+        
+        var advisor = document.querySelector('#root > section > div.app-container > div > div:nth-child(3) > div:nth-child(' + i + ') > div > div > div.media > div.media-content > p.title.is-4').textContent
+
+        console.log('Evaluating advisor ' + advisor + ' (' + i + '/' + (IS_THREE_ADVISOR === true) ? '3' : '2' + ')')
 
         await page.click('#root > section > div.app-container > div > div:nth-child(3) > div:nth-child(' + i + ') > div > div > a')
 
@@ -77,7 +80,9 @@ const { USER = "USERNAME", PASS = "PASSWORD", IS_THREE_ADVISOR = false } = proce
         if (await page.$('#root > section > div.app-container > div > div:nth-child(' + i + ') > div:nth-child(' + j + ') > div > div > a') === null) {
           continue;
         } else {
-          console.log('Evaluating lecturer (' + i + ':' + j + ')')
+          var lecturer = document.querySelector('#root > section > div.app-container > div > div:nth-child(' + i + ') > div:nth-child(' + j + ') > div > div > div.media > div.media-content > p.title.is-4').textContent
+
+          console.log('Evaluating lecturer ' + lecturer + ' (' + i + ':' + j + ')')
           await page.click('#root > section > div.app-container > div > div:nth-child(' + i + ') > div:nth-child(' + j + ') > div > div > a')
 
           await page.waitForSelector('.table > tbody > tr:nth-child(1) > td:nth-child(6) > input')
