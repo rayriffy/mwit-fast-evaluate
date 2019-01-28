@@ -3,7 +3,7 @@ const dotenv = require('dotenv');
 
 dotenv.config();
 
-const { USER = "USERNAME", PASS = "PASSWORD", IS_THREE_ADVISOR = false, HEADLESS = false } = process.env;
+const { USER = "USERNAME", PASS = "PASSWORD", IS_THREE_ADVISOR = false } = process.env;
 
 (async () => {
   const browser = await puppeteer.launch({
@@ -44,7 +44,6 @@ const { USER = "USERNAME", PASS = "PASSWORD", IS_THREE_ADVISOR = false, HEADLESS
 
   var i, j, k;
 
-  // Advisor
   console.log('>> Starting evaluate advisor')
   for (i = 1 ; i <= 3 ; i++) {
     if (IS_THREE_ADVISOR == false && i == 3) {
@@ -77,7 +76,6 @@ const { USER = "USERNAME", PASS = "PASSWORD", IS_THREE_ADVISOR = false, HEADLESS
     }
   }
 
-  // Lecturer
   console.log('>> Starting evaluate lecturer')
   for (i = 3 ; i < 10 ; i++) {
     for (j = 1 ; j <= 3 ; j++) {
