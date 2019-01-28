@@ -3,7 +3,7 @@ const dotenv = require('dotenv');
 
 dotenv.config();
 
-const { USER = "USERNAME", PASS = "PASSWORD", IS_THREE_ADVISOR = false } = process.env;
+const { USER = "USERNAME", PASS = "PASSWORD", IS_THREE_ADVISOR = 0 } = process.env;
 
 (async () => {
   const browser = await puppeteer.launch({
@@ -38,7 +38,7 @@ const { USER = "USERNAME", PASS = "PASSWORD", IS_THREE_ADVISOR = false } = proce
   await page.waitForSelector('.sidebar > .menu > .submenu > a > span:nth-child(2)')
   await page.click('.sidebar > .menu > .submenu > a > span:nth-child(2)')
 
-  await page.waitFor(2000)
+  await page.waitFor(1000)
 
   console.log('>> Ready!')
 
@@ -46,16 +46,17 @@ const { USER = "USERNAME", PASS = "PASSWORD", IS_THREE_ADVISOR = false } = proce
 
   console.log('>> Starting evaluate advisor')
   for (i = 1 ; i <= 3 ; i++) {
-    if (IS_THREE_ADVISOR == false && i == 3) {
+    if (IS_THREE_ADVISOR == false && i === 3) {
       break;
     } else {
+      var advisorElement = await page.$('#root > section > div.app-container > div > div:nth-child(3) > div:nth-child(' + i + ') > div > div > div.media > div.media-content > p.title.is-4')
+      var advisor = await page.evaluate(element => element.textContent, advisorElement)
+
       if (await page.$('#root > section > div.app-container > div > div:nth-child(3) > div:nth-child(' + i + ') > div > div > a') === null) {
+        console.log('Skipping advisor ' + advisor + '. Reason: evaluated' + ' (' + i + '/' + ((IS_THREE_ADVISOR == true) ? '3' : '2') + ')')
         continue;
       } else {
-        
-        var advisor = document.querySelector('#root > section > div.app-container > div > div:nth-child(3) > div:nth-child(' + i + ') > div > div > div.media > div.media-content > p.title.is-4').textContent
-
-        console.log('Evaluating advisor ' + advisor + ' (' + i + '/' + (IS_THREE_ADVISOR === true) ? '3' : '2' + ')')
+        console.log('Evaluating advisor ' + advisor + ' (' + i + '/' + (IS_THREE_ADVISOR == true) ? '3' : '2' + ')')
 
         await page.click('#root > section > div.app-container > div > div:nth-child(3) > div:nth-child(' + i + ') > div > div > a')
 
@@ -77,16 +78,28 @@ const { USER = "USERNAME", PASS = "PASSWORD", IS_THREE_ADVISOR = false } = proce
   }
 
   console.log('>> Starting evaluate lecturer')
-  for (i = 3 ; i < 10 ; i++) {
+
+  var isStop = 0;
+  i = 2;
+
+  while (i++) {
     for (j = 1 ; j <= 3 ; j++) {
-      if ((i == 3 && j == 1) || (i == 3 && j == 2) || (i == 3 && IS_THREE_ADVISOR == true)) {
+      if ((i === 3 && j === 1) || (i === 3 && j === 2) || (i === 3 && IS_THREE_ADVISOR == true)) {
         continue;
       } else {
+        var lecturerElement = await page.$('#root > section > div.app-container > div > div:nth-child(' + i + ') > div:nth-child(' + j + ') > div > div > div.media > div.media-content > p.title.is-4')
+
+        if (!lecturerElement) {
+          isStop = 1;
+          break;
+        }
+
+        var lecturer = await page.evaluate(element => element.textContent, lecturerElement)
+
         if (await page.$('#root > section > div.app-container > div > div:nth-child(' + i + ') > div:nth-child(' + j + ') > div > div > a') === null) {
+          console.log('Skipping lecturer ' + lecturer + '. Reason: evaluated')
           continue;
         } else {
-          var lecturer = document.querySelector('#root > section > div.app-container > div > div:nth-child(' + i + ') > div:nth-child(' + j + ') > div > div > div.media > div.media-content > p.title.is-4').textContent
-
           console.log('Evaluating lecturer ' + lecturer + ' (' + i + ':' + j + ')')
           await page.click('#root > section > div.app-container > div > div:nth-child(' + i + ') > div:nth-child(' + j + ') > div > div > a')
 
@@ -103,6 +116,9 @@ const { USER = "USERNAME", PASS = "PASSWORD", IS_THREE_ADVISOR = false } = proce
           await page.waitFor(1500)
         }
       }
+    }
+    if (isStop == true) {
+      break;
     }
   }
   
