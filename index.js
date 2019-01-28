@@ -14,6 +14,8 @@ const { USER = "USERNAME", PASS = "PASSWORD", IS_THREE_ADVISOR = false, HEADLESS
   
   await page.goto('https://gitdev.mwit.ac.th/hrmwit/login')
 
+  console.log('>> Logging in..')
+
   await page.waitForSelector('body > .screenpage > .is-fixed > .form > #username')
   await page.type('body > .screenpage > .is-fixed > .form > #username', USER)
 
@@ -25,15 +27,21 @@ const { USER = "USERNAME", PASS = "PASSWORD", IS_THREE_ADVISOR = false, HEADLESS
   await page.waitForSelector('body > .screenpage > .is-fixed > .form > .login-submit')
   await page.click('body > .screenpage > .is-fixed > .form > .login-submit')
 
+  console.log('>> Logged in!')
+
   await page.waitFor(500)
+
+  console.log('>> Intitializing...')
 
   await page.waitForSelector('.app-container > .sidebar > .menu > .is-flex-center > span:nth-child(1)')
   await page.click('.app-container > .sidebar > .menu > .is-flex-center > span:nth-child(1)')
   
   await page.waitForSelector('.sidebar > .menu > .submenu > a > span:nth-child(2)')
   await page.click('.sidebar > .menu > .submenu > a > span:nth-child(2)')
-  
+
   await page.waitFor(2000)
+
+  console.log('>> Ready!')
 
   var i, j, k;
 
