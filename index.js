@@ -6,9 +6,8 @@ dotenv.config();
 const { USER = "USERNAME", PASS = "PASSWORD", IS_THREE_ADVISOR = false, HEADLESS = false } = process.env;
 
 (async () => {
-
   const browser = await puppeteer.launch({
-    headless: HEADLESS
+    headless: false
   });
   const page = await browser.newPage()
   
@@ -47,8 +46,8 @@ const { USER = "USERNAME", PASS = "PASSWORD", IS_THREE_ADVISOR = false, HEADLESS
 
   // Advisor
   console.log('>> Starting evaluate advisor')
-  for(i = 1 ; i <= 3 ; i++) {
-    if(IS_THREE_ADVISOR == false && i == 3) {
+  for (i = 1 ; i <= 3 ; i++) {
+    if (IS_THREE_ADVISOR == false && i == 3) {
       break;
     } else {
       if (await page.$('#root > section > div.app-container > div > div:nth-child(3) > div:nth-child(' + i + ') > div > div > a') === null) {
@@ -65,7 +64,7 @@ const { USER = "USERNAME", PASS = "PASSWORD", IS_THREE_ADVISOR = false, HEADLESS
 
         await page.waitForSelector('.table > tbody > tr:nth-child(1) > td:nth-child(6) > input')
 
-        for(j = 1 ; j <= 5 ; j++) {
+        for (j = 1 ; j <= 5 ; j++) {
           await page.click('.table > tbody > tr:nth-child(' + j + ') > td:nth-child(6) > input')
         }
 
@@ -80,9 +79,9 @@ const { USER = "USERNAME", PASS = "PASSWORD", IS_THREE_ADVISOR = false, HEADLESS
 
   // Lecturer
   console.log('>> Starting evaluate lecturer')
-  for(i = 3 ; i < 10 ; i++) {
-    for(j = 1 ; j <= 3 ; j++) {
-      if((i == 3 && j == 1) || (i == 3 && j == 2) || (i == 3 && IS_THREE_ADVISOR == true)) {
+  for (i = 3 ; i < 10 ; i++) {
+    for (j = 1 ; j <= 3 ; j++) {
+      if ((i == 3 && j == 1) || (i == 3 && j == 2) || (i == 3 && IS_THREE_ADVISOR == true)) {
         continue;
       } else {
         if (await page.$('#root > section > div.app-container > div > div:nth-child(' + i + ') > div:nth-child(' + j + ') > div > div > a') === null) {
