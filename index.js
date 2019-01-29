@@ -106,7 +106,7 @@ const { USER = "USERNAME", PASS = "PASSWORD", IS_THREE_ADVISOR = 0 } = process.e
           await page.waitForSelector('.table > tbody > tr:nth-child(1) > td:nth-child(6) > input')
 
           for (k = 1 ; k <= 10 ; k++) {
-            await page.click('.table > tbody > tr:nth-child(1) > td:nth-child(6) > input')
+            await page.click('.table > tbody > tr:nth-child(' + k + ') > td:nth-child(6) > input')
           }
 
           await page.waitFor(500)
